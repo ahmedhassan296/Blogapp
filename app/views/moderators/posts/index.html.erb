@@ -1,0 +1,7 @@
+<h1>Moderate Posts</h1>
+
+<h2>Posts Awaiting Approval</h2>
+<%= render @posts.where(approved: false) %>
+
+<h2>Reported Posts</h2>
+<%= render @posts.where(reported: true) %>

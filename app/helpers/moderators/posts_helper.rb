@@ -1,0 +1,2 @@
+module Moderators::PostsHelper
+end

@@ -1,0 +1,20 @@
+<p style="color: green"><%= notice %></p>
+
+<!-- Render the image partial and pass the @post variable -->
+<%= render partial: 'post', locals: { post: @post } %>
+
+<div>
+  <%= link_to "Edit this post", edit_post_path(@post) %> &nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp
+  <%= link_to "Back to posts", posts_path %>
+<br/><br/>
+  <%= button_to "Destroy this post", @post, method: :delete %>
+  <br/>
+</div>
+<br/>
+<%= render 'likes/like_button', post: @post %>
+  <p>
+    <strong>COMMENTS</strong>
+    <%= render @post.comments.includes(:user).order(id: :desc) %>
+    <%= render partial: 'comments/form', locals: { post: @post } %>
+  </p>
+</div>

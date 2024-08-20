@@ -1,0 +1,7 @@
+{
+  "name": "blogPost",
+  "packageManager": "yarn@4.3.1",
+  "dependencies": {
+    "rails_admin": "3.2.0-beta"
+  }
+}

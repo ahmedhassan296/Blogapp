@@ -1,0 +1,26 @@
+<!-- app/views/errors/500.html.erb -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Internal Server Error</title>
+  <style>
+    /* Add some styles to make your error page look nice */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      font-size: 48px;
+    }
+    p {
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+  <h1>500 - Internal Server Error</h1>
+  <p>Something went wrong. Please try again later.</p>
+  <p><a href="<%= root_path %>">Go back to the homepage</a></p>
+</body>
+</html>

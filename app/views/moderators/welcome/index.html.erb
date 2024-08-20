@@ -1,0 +1,18 @@
+<h1>Welcome, Moderator!</h1>
+<p>
+  You can manage posts by using the links below:
+</p>
+
+<ul>
+  <!-- Link to approve posts -->
+  <li>
+    <%= link_to 'Approve Posts', approve_moderators_posts_path %>
+    
+  </li>
+
+
+  <!-- Link to delete reported posts -->
+  <li>
+    <%= link_to 'Delete Reported Posts', delete_reported_moderators_posts_path, method: :delete %>
+  </li>
+</ul>
