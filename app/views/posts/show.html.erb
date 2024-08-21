@@ -1,19 +1,36 @@
+<%= link_to "Back to posts", posts_path,style:'margin-left:100px' %>
+
 <p style="color: green"><%= notice %></p>
 
 <!-- Render the image partial and pass the @post variable -->
 <%= render partial: 'post', locals: { post: @post } %>
 
+<% unless @post.user == current_user %>
+  <div>
+    <strong>Created By:</strong> <%= @post.user.username %>
+  </div>
+<div class="report-card">
+  <h4 class="report-title">Report Post</h4>
+  <%= render partial: 'reports/report_form', locals: { reportable: @post } %>
+</div>
+
+<% end %>
 <div>
-  <%= link_to "Edit this post", edit_post_path(@post) %> &nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp
-  <%= link_to "Back to posts", posts_path %>
+  <% if @post.user == current_user %>
+  <%= link_to "Edit this post", edit_post_path(@post) %> 
+  <% end %>
+   &nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp
 <br/><br/>
-  <%= button_to "Destroy this post", @post, method: :delete %>
+<% if @post.user == current_user %>
+<%= link_to 'Delete', @post,  data: { turbo_method: :delete,confirm: 'Are you sure you want to delete this post?' } %>
+ <% end %>
   <br/>
 </div>
 <br/>
 <%= render 'likes/like_button', post: @post %>
+
   <p>
-    <strong>COMMENTS</strong>
+    <h3>COMMENTS</h3>
     <%= render @post.comments.includes(:user).order(id: :desc) %>
     <%= render partial: 'comments/form', locals: { post: @post } %>
   </p>

@@ -1,0 +1,10 @@
+
+<%= form_with model: [reportable, Report.new], local: true do |form| %>
+  <div class="field">
+    <%= form.label :reason %>
+    <%= form.text_area :reason, rows: 3, placeholder: 'Please report here' %>
+  </div>
+  <div class="actions">
+    <%= form.submit 'Report' %>
+  </div>
+<% end %>

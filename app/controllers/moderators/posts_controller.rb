@@ -1,41 +1,35 @@
+# app/controllers/moderators/posts_controller.rb
 module Moderators
   class PostsController < ApplicationController
-    before_action :authenticate_user!
-    before_action :authorize_moderator
+    before_action :set_post, only: [:approve, :delete_reported]
 
-    # Action to approve a post
-
-    
-  
-   
-
-    def approve
-      # @post = Post.find(params[:id])
-      # if @post.update(approved: true)
-      #   redirect_to moderators_posts_path, notice: 'Post approved successfully.'
-      # else
-      #   redirect_to moderators_posts_path, alert: 'Failed to approve post.'
-      # end
-         @posts = Post.where(status: 'pending').order(created_at: :desc)
+    # GET /moderators/posts
+    def index
+      @posts = Post.all # or use a scope like `Post.pending_review` if you have one
     end
 
-    # Action to delete a reported post
+    # PATCH /moderators/posts/:id/approve
+    def approve
+      if @post.update(status: 'approved')
+        redirect_to moderators_posts_path, notice: 'Post approved successfully.'
+      else
+        redirect_to moderators_posts_path, alert: 'Failed to approve the post.'
+      end
+    end
+
+    # DELETE /moderators/posts/:id/delete_reported
     def delete_reported
-      @post = Post.find(params[:id])	
       if @post.destroy
         redirect_to moderators_posts_path, notice: 'Post deleted successfully.'
       else
-        redirect_to moderators_posts_path, alert: 'Failed to delete post.'
+        redirect_to moderators_posts_path, alert: 'Failed to delete the post.'
       end
     end
 
     private
 
-    # Ensure the user is a moderator
-    def authorize_moderator
-      unless current_user.moderator?
-        redirect_to root_path, alert: 'You are not authorized to access this section.'
-      end
+    def set_post
+      @post = Post.find(params[:id])
     end
   end
 end

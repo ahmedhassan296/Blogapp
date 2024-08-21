@@ -1,6 +1,9 @@
-<article>
-    <p><%= comment.content %></p>
-    <small>by <%= comment.user.username%></small>
-
+<article class="comment-card">
+  <p class="comment-content"><%= comment.content %></p>
+  <div class="comment-author">
+    <small>by <%= comment.user.username %></small>
+  </div>
+  <h4 style="color: black">Report Comment</h4>
+  <%= render partial: 'reports/report_form', locals: { reportable: comment } %>
 </article>
 <hr/>

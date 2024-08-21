@@ -1,14 +1,15 @@
 <p style="color: green"><%= notice %></p>
+<hr/>
+
+
+<h1 class="welcome-heading">Welcome to our BlogApp</h1>
 
 <div class="action-links">
-  <%= link_to "New post", new_post_path %> &nbsp&nbsp&nbsp
+  <%= link_to "New post", new_post_path %> &nbsp&nbsp&nbsp&nbsp&nbsp
   <% if current_user %>
   <%= link_to 'My Posts', posts_path %>
   <% end%>
 </div>
-
-<h1 class="welcome-heading">Welcome to our BlogApp</h1>
-
 <div class="posts-container">
   <% @posts.each do |post| %>
     <div class="post-card">
@@ -20,8 +21,8 @@
       <p class="post-description"><%= post.description.truncate(150) %></p>
 
       <h3>Created by:</h3>
-      <p class="post-author"><%= post.user.email %></p>
-
+      <p class="post-author"><%= post.user.username %></p>
+   
       <div class="comments-section">
         <h3>Comments:</h3>
         <% post.comments.limit(3).each do |comment| %>
@@ -31,7 +32,7 @@
         <% end %>
       </div>
 
-      <%= link_to 'Read more', post_path(post), class: 'btn btn-secondary' %>
+      <%= link_to 'Read more', post_path(post) %>
     </div>
   <% end %>
 </div>

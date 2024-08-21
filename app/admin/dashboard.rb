@@ -10,6 +10,7 @@ ActiveAdmin.register_page "Dashboard" do
       end
     end
 
+
     # Here is an example of a simple dashboard with columns and panels.
     #
     # columns do
@@ -29,5 +30,44 @@ ActiveAdmin.register_page "Dashboard" do
     #     end
     #   end
     # end
+
   end # content
+  content do
+    # Existing sections or dashboard content
+
+    # Add a section with a link to view all Users
+    section "Users" do
+      div do
+        link_to "View All Users", admin_users_path
+      end
+    end
+
+    # Other sections or dashboard content...
+  end
+  content do
+    # Existing sections or dashboard content
+
+    # Add a section with a link to view all Users
+    section "Posts" do
+      div do
+        link_to "View All Posts", admin_posts_path
+      end
+    end
+
+    # Other sections or dashboard content...
+  end
+
+  content do
+    # Existing sections or dashboard content
+
+    # Add a section with a link to view all Users
+    section "Likes" do
+      div do
+        link_to "View All Posts", admin_likes_path
+      end
+    end
+
+    # Other sections or dashboard content...
+  end
+  
 end

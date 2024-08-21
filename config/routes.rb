@@ -9,8 +9,15 @@ Rails.application.routes.draw do
   }
 
   resources :posts do
-      resources :comments, only: [:create]
+      resources :comments, only: [:create, :update, :destroy]
   end
+  resources :posts do
+  resources :reports, only: [:create]
+end
+
+resources :comments do
+  resources :reports, only: [:create]
+end
 
 resources :posts do
     resources :likes, only: [:create, :destroy]
@@ -23,23 +30,22 @@ resources :posts do
     get '/users/sign_out' => 'devise/sessions#destroy'
   end
 
- namespace :moderators do
-    resources :posts, only: [] do
-      member do
-        patch 'approve'
-        delete 'delete_reported'
-      end
-      collection do
-        delete 'delete_reported'
-      end
-       collection do
-        patch 'approve'
-      end
+# config/routes.rb
+namespace :moderators do
+  resources :posts, only: [:index] do
+    member do
+      post 'approve'
+      delete 'delete_reported'
     end
-
-    get 'welcome', to: 'welcome#index', as: 'moderator_dashboard'
-    
+    collection do
+      delete 'delete_reported'
+    end
   end
+
+  get 'welcome', to: 'welcome#index', as: 'moderator_dashboard'
+end
+
+
   
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

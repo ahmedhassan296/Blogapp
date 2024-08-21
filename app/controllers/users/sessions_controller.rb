@@ -17,7 +17,7 @@ class Users::SessionsController < Devise::SessionsController
         redirect_to moderators_moderator_dashboard_path and return
       else
         # Redirect regular User to the Posts page
-        redirect_to posts_path and return
+        redirect_to root_path and return
       end
     end
   end
