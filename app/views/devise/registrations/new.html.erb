@@ -1,6 +1,6 @@
-<h2 class="text-center mt-5">Sign up</h2>
+<h2 class="text-center mt-0">Sign up</h2>
 
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center custom-card-position">
   <div class="card p-4 shadow" style="width: 30rem;">
     <div class="card-body">
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
@@ -45,3 +45,9 @@
 <%= render "devise/shared/links" %>
 
 
+<style>
+
+  .custom-card-position {
+    margin-top: 5px; /* Adjust this value as needed */
+  }
+</style>

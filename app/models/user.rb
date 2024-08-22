@@ -19,7 +19,7 @@ before_destroy :destroy_associations
 has_many :reports, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :lockable, :trackable
+         :recoverable, :rememberable, :validatable, :lockable, :trackable, :confirmable
 
   validates :username, presence: true, uniqueness: true
 
