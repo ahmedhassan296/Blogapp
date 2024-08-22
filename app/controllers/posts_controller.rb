@@ -1,6 +1,8 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[  edit update destroy ]
 before_action :authenticate_user!
+
+before_action :authorize_post, only: [:edit, :update, :destroy]
   # GET /posts or /posts.json
   def index
     @posts = current_user.posts
@@ -9,6 +11,8 @@ before_action :authenticate_user!
   # GET /posts/1 or /posts/1.json
   def show
     @post = Post.find(params[:id])
+    @likeable = @post
+    @comment =  @post.comments.includes(:user).order(id: :desc)
   end
 
   # GET /posts/new
@@ -39,6 +43,7 @@ before_action :authenticate_user!
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
+    can? :update, @post
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to post_url(@post), notice: "Post was successfully updated." }
@@ -76,4 +81,7 @@ before_action :authenticate_user!
     def post_params
       params.require(:post).permit(:title, :description, :image)
     end
+    def authorize_post
+    authorize! action_name.to_sym, @post
+  end
 end

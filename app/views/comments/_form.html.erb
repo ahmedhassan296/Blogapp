@@ -1,9 +1,18 @@
-<form action="<%= post_comments_path(post) %>" method="post">
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-
-  <div>
-    <textarea name="comment[content]" rows="3" cols="20"placeholder="Please comment here"></textarea>
+<%= form_with(model: [post, (reply_to || Comment.new)], local: true) do |form| %>
+  
+   <%= form.hidden_field :parent_id, value: reply_to&.id %>
+  <div class="form-group">
+    <%= form.label :content %>
+    <%= form.text_area :content, rows: 3, class: 'form-control', placeholder: 'Please comment here' %>
   </div>
 
-  <input type="submit" value="Submit">
-</form>
+  <div class="form-group">
+    <%= form.label :images, "Attach Images" %>
+    <%= form.file_field :images, multiple: true, direct_upload: true, class: 'form-control' %>
+  </div>
+
+  <%# Hidden field to store the parent_id if replying to a comment %>
+  <%= form.hidden_field :parent_id, value: reply_to.id if reply_to %>
+
+  <%= form.submit 'Submit', class: 'btn btn-dark' %>
+<% end %>

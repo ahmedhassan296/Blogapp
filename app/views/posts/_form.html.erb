@@ -1,30 +1,46 @@
-<%= form_with(model: post) do |form| %>
-  <% if post.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+<h2 class="text-center mt-0">Create a New Post</h2>
 
-      <ul>
-        <% post.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+<div class="d-flex justify-content-center mt-5">
+  <div class="card p-4 shadow" style="width: 40rem;">
+    <div class="card-body">
+      <%= form_with(model: post, local: true, class: "needs-validation") do |form| %>
+        <% if post.errors.any? %>
+          <div class="alert alert-danger">
+            <h4><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h4>
+            <ul>
+              <% post.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
         <% end %>
-      </ul>
+
+        <div class="mb-3">
+          <%= form.label :title, class: "form-label" %>
+          <%= form.text_field :title, class: "form-control", placeholder: "Enter the title" %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :description, class: "form-label" %>
+          <%= form.text_field :description, class: "form-control", placeholder: "Enter the description" %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :image, class: "form-label" %>
+          <%= form.file_field :image, class: "form-control" %>
+        </div>
+
+        <div class="d-grid">
+          <%= form.submit "Create Post", class: "btn btn-primary" %>
+        </div>
+      <% end %>
     </div>
-  <% end %>
+  </div>
+</div>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
-  </div>
-
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.text_field :description %>
-  </div>
-  <div>
-    <%=form.label :image, style: "display: block" %>
-    <%= form.file_field :image %>
-  </div>
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+<style>
+  /* Custom styling if needed */
+  .custom-card-position {
+    margin-top: 20px; /* Adjust this value as needed */
+  }
+</style>

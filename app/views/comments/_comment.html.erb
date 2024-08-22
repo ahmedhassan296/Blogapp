@@ -3,7 +3,30 @@
   <div class="comment-author">
     <small>by <%= comment.user.username %></small>
   </div>
-  <h4 style="color: black">Report Comment</h4>
+
+  <% if comment.images.attached? %>
+    <div class="comment-images">
+      <% comment.images.each do |image| %>
+        <%= image_tag image, class: 'img-thumbnail', alt: 'Comment image' %>
+      <% end %>
+    </div>
+  <% end %>
+
+   <div class="text-left mb-4">
+    <%= render 'likes/like_button', likeable: comment %>
+  </div>
+
+   <div>
+ <%= link_to 'Reply to this comment', '#', class: 'reply-link', data: { comment_id: comment.id } %>   </div>
+
+   <div class="replies">
+    <%= render comment.replies %>
+  </div>
+
+ <div id="reply-form-<%= comment.id %>" class="reply-form" style="display:none;">
+    <%= render partial: 'comments/form', locals: { post: comment.post, reply_to: comment } %>
+  </div>
+    <h4 style="color: black">Report Comment</h4>
   <%= render partial: 'reports/report_form', locals: { reportable: comment } %>
 </article>
 <hr/>

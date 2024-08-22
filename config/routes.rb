@@ -11,15 +11,14 @@ Rails.application.routes.draw do
   # Root path
   root to: 'home#index'
 
-  # Sign out route for users (Devise)
-  devise_scope :user do
-    get '/users/sign_out' => 'devise/sessions#destroy'
-  end
-
   # Posts and nested resources (comments, likes)
   resources :posts do
-    resources :comments, only: [:create]
+    resources :comments do
+      resources :likes, only: [:create, :destroy], as: 'comment_likes'
+      resources :comments, only: [:create,:new], as: 'replies'
+    end
     resources :likes, only: [:create, :destroy]
+    resources :reports, only: [:create], as: 'post_reports'
   end
 
   # Moderator-specific actions on posts

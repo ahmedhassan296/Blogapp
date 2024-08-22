@@ -1,44 +1,40 @@
 class CommentsController < ApplicationController
+  # before_action :set_comment, only: %i[update destroy]
+   before_action :set_post, only: [:create, :new]
+  before_action :set_comment, only: [:update]
+  @likeable = @comment
 
-  # def create
-  #           @comment = current_user.comments.new(comment_params)
-  #           if !@comment.save
-  #           	flash[:notice] = @comment.errors.full_messages.to_sentence
-  #           end
-  #           redirect_to post_path(params[:post_id])
-  # end
-
-  private
-
-  def comment_params
-    params
-      .require(:comment)
-      .permit(:content)
-      .merge(post_id: params[:post_id])
-  end
-
-
-  before_action :set_comment, only: %i[show edit update destroy]
-
-  # GET /comments/new
-  def new
-    @comment = Comment.new
-  end
-
-  # POST /comments
+  # POST /posts/:post_id/comments
   def create
-    @comment = Comment.new(comment_params)
+    @comment = @post.comments.build(comment_params)
+ @comment.parent_id = params[:comment_id] if params[:comment_id].present?
+    if params[:comment_id] # If it's a reply
+      @comment.parent_id = params[:comment_id]
+    end
+
     if @comment.save
-      redirect_to post_path(params[:post_id]), notice: 'Comment was successfully created.'
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to post_path(@post), notice: 'Comment was successfully created.' }
+      end
     else
-      render :new
+      render 'posts/show' # Render the show page if validation fails
     end
   end
+
+  # GET /posts/:post_id/comments/ :comment_id/replies/new
+  def new
+    @reply_to = Comment.find(params[:comment_id])
+    @comment = @post.comments.build(parent: @reply_to)
+    
+    render partial: 'comments/form', locals: { post: @post, reply_to: @reply_to }
+  end
+
 
   # PATCH/PUT /comments/1
   def update
     if @comment.update(comment_params)
-      redirect_to @comment, notice: 'Comment was successfully updated.'
+      redirect_to post_path(@comment.post), notice: 'Comment was successfully updated.'
     else
       render :edit
     end
@@ -46,12 +42,21 @@ class CommentsController < ApplicationController
 
   private
 
+
+  def set_post
+    @post = Post.find(params[:post_id])
+  end
+
   def set_comment
     @comment = Comment.find(params[:id])
   end
 
-  def comment_params
-    params.require(:comment).permit(:content, images: [])
-  end
+  # def set_comment
+  #   @comment = Comment.find(params[:id])
+  # end
 
+  def comment_params
+    params.require(:comment).permit(:content, images: []).merge(post_id: params[:post_id], user_id: current_user.id)
+  end
 end
+

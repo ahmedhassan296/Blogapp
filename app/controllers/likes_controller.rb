@@ -2,12 +2,24 @@ class LikesController < ApplicationController
   before_action :authenticate_user! # Ensure user is authenticated
 
   def create
-    @post = Post.find(params[:post_id])
-    @like = @post.likes.create(user: current_user)
+    @likeable = find_likeable
+    @like = current_user.likes.find_or_initialize_by(likeable: @likeable)
+
+    @like.kind = params[:kind] || 'thumb_up'
+
+    if @like.new_record?
+      if @like.save
+        flash.now[:notice] = 'Liked!'
+      else
+        flash.now[:alert] = 'Unable to like.'
+      end
+    else
+      @like.destroy
+      flash.now[:notice] = 'Unliked!'
+    end
 
     respond_to do |format|
-     # format.html { redirect_to @post, notice: 'Liked!' }
-      format.js # This will look for create.js.erb for AJAX requests
+      format.js # This will look for create.js.erb or destroy.js.erb for AJAX requests
     end
   end
 
@@ -16,8 +28,18 @@ class LikesController < ApplicationController
     @like.destroy
 
     respond_to do |format|
-     # format.html { redirect_to @like.likeable, notice: 'Unliked!' }
       format.js # This will look for destroy.js.erb for AJAX requests
     end
+  end
+
+  private
+
+  def find_likeable
+    params.each do |name, value|
+      if name =~ /(.+)_id$/
+        return $1.classify.constantize.find(value)
+      end
+    end
+    nil
   end
 end

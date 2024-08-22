@@ -1,37 +1,72 @@
-<%= link_to "Back to posts", posts_path,style:'margin-left:100px' %>
-
-<p style="color: green"><%= notice %></p>
-
-<!-- Render the image partial and pass the @post variable -->
-<%= render partial: 'post', locals: { post: @post } %>
-
-<% unless @post.user == current_user %>
-  <div>
-    <strong>Created By:</strong> <%= @post.user.username %>
+<style>
+ .myclass
+ {
+  position:absolute;
+  top: 540px;
+  left:500px;
+ }
+</style>
+<div class="container mt-4">
+  <!-- Back to Posts Link -->
+  <div class="text-center mb-4">
+    <%= link_to "Back to Posts", posts_path, class: "btn btn-outline-secondary" %>
   </div>
-<div class="report-card">
-  <h4 class="report-title">Report Post</h4>
-  <%= render partial: 'reports/report_form', locals: { reportable: @post } %>
-</div>
 
-<% end %>
-<div>
-  <% if @post.user == current_user %>
-  <%= link_to "Edit this post", edit_post_path(@post) %> 
+  <!-- Post Card -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <!-- Render the image partial -->
+      <%= render partial: 'post', locals: { post: @post } %>
+    </div>
+  </div>
+
+  <!-- Created By Section -->
+  <% unless @post.user == current_user %>
+    <div class="mb-4">
+      <strong>Created By:</strong> <%= @post.user.username %>
+    </div>
   <% end %>
-   &nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp
-<br/><br/>
-<% if @post.user == current_user %>
-<%= link_to 'Delete', @post,  data: { turbo_method: :delete,confirm: 'Are you sure you want to delete this post?' } %>
- <% end %>
-  <br/>
-</div>
-<br/>
-<%= render 'likes/like_button', post: @post %>
 
-  <p>
-    <h3>COMMENTS</h3>
-    <%= render @post.comments.includes(:user).order(id: :desc) %>
-    <%= render partial: 'comments/form', locals: { post: @post } %>
-  </p>
+  <!-- Report Post Section -->
+  <% if @post.user != current_user && !@post.reports.exists?(user: current_user) %>
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <h4 class="card-title">Report Post</h4>
+        <%= render partial: 'reports/report_form', locals: { reportable: @post } %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Post Actions -->
+  <div class="text-center mb-4">
+    <% if can? :update, @post %>
+      <%= link_to "Edit this post", edit_post_path(@post), class: "btn btn-warning me-2" %>
+<% end %>
+<% if can? :destroy, @post %>
+      <%= link_to 'Delete', @post, method: :delete, data: { turbo_confirm: 'Are you sure you want to delete this post?' }, class: "btn btn-danger" %>
+<% end %>
+  </div>
+
+  <!-- Like Button -->
+  <div class="text-center mb-4 myclass">
+    <%= render 'likes/like_button', likeable: @post %>
+  </div>
+
+  <!-- Comments Section -->
+  <div class="card mb-4 shadow-sm">
+  <div class="card-body">
+    <h3 class="card-title">Comments</h3>
+
+    <% @comment.each do |comment| %>
+      <%= render 'comments/comment', comment: comment %>
+      
+      <!-- Render the reply form, passing the comment as reply_to -->
+      <%= render 'comments/form', post: @post, reply_to: comment %>
+    <% end %>
+
+    <!-- Render the form for adding a new comment (not a reply) -->
+    <%= render partial: 'comments/form', locals: { post: @post, reply_to: nil } %>
+  </div>
+</div>
+
 </div>

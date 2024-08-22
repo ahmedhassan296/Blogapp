@@ -1,18 +1,19 @@
-<h1>Welcome, Moderator!</h1>
-<p>
-  You can manage posts by using the links below:
-</p>
+<!-- app/views/moderators/dashboard.html.erb (or similar view file) -->
+<div class="container text-center my-5">
+  <h1 class="display-4">Welcome, Moderator!</h1>
+  <p class="lead mt-3">
+    You can manage posts by using the links below:
+  </p>
 
-<ul>
-  <!-- Link to approve posts -->
-  <li>
-    <%= link_to 'Approve Posts', moderators_posts_path %>
-    
-  </li>
+  <ul class="list-group list-group-flush mt-4">
+    <!-- Link to approve posts -->
+    <li class="list-group-item">
+      <%= link_to 'Approve Posts', moderators_posts_path, class: 'btn btn-primary btn-lg w-50' %>
+    </li>
 
-
-  <!-- Link to delete reported posts -->
-  <li>
-    <%= link_to 'Delete Reported Posts', moderators_posts_path %>
-  </li>
-</ul>
+    <!-- Link to delete reported posts -->
+    <li class="list-group-item">
+      <%= link_to 'Delete Reported Posts', moderators_posts_path, class: 'btn btn-danger btn-lg w-50' %>
+    </li>
+  </ul>
+</div>
