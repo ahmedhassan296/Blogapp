@@ -1,48 +1,47 @@
-<h2>Sign up</h2>
+<h2 class="text-center mt-5">Sign up</h2>
 
-<%= link_to 'Sign Up as Admin', new_admin_user_registration_path, style: 'display: inline-block; padding: 5px 5px; font-size: 16px; color: #fff; background-color: #007bff; border-radius: 5px; text-align: center; text-decoration: none; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); transition: background-color 0.3s ease; margin-left: 0px;' %>
+<div class="d-flex justify-content-center">
+  <div class="card p-4 shadow" style="width: 30rem;">
+    <div class="card-body">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
 
+        <div class="mb-3">
+          <%= f.label :username, class: "form-label" %>
+          <%= f.text_field :username, autofocus: true, autocomplete: "username", class: "form-control" %>
+        </div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+        <div class="mb-3">
+          <%= f.label :email, class: "form-label" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+        </div>
 
-<div class="field">
-  <%= f.label :username %><br />
-  <%= f.text_field :username, autofocus: true, autocomplete: "username" %>
+        <div class="mb-3">
+          <%= f.label :password, class: "form-label" %>
+          <% if @minimum_password_length %>
+            <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %>
+          <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :password_confirmation, class: "form-label" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :usertype, class: "form-label" %>
+          <%= f.select :usertype, options_for_select([['User', :user], ['Moderator', :moderator]], resource.usertype), { prompt: 'Select a user type' }, class: "form-select" %>
+        </div>
+
+        <div class="d-grid">
+          <%= f.submit "Sign up", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <!-- Add the usertype selection field -->
-  <div class="field">
-    <%= f.label :usertype %><br />
-    <%= f.select :usertype, options_for_select([['User', :user], ['Moderator', :moderator]], resource.usertype), { prompt: 'Select a user type' } %>
-  </div>
-  <br/>
-
-
-
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
 <%= render "devise/shared/links" %>
+
+

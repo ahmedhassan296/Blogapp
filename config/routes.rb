@@ -1,56 +1,44 @@
 Rails.application.routes.draw do
+  # Devise routes for admin and users
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-   # get 'admin/index', to: 'admin#index', as: 'admin_dashboard'
+
   devise_for :users, controllers: {
     sessions: 'users/sessions',
-      registrations: 'users/registrations'
-
+    registrations: 'users/registrations'
   }
 
-  resources :posts do
-      resources :comments, only: [:create, :update, :destroy]
-  end
-  resources :posts do
-  resources :reports, only: [:create]
-end
-
-resources :comments do
-  resources :reports, only: [:create]
-end
-
-resources :posts do
-    resources :likes, only: [:create, :destroy]
-  end
-
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # Root path
   root to: 'home#index'
 
-   devise_scope :user do
+  # Sign out route for users (Devise)
+  devise_scope :user do
     get '/users/sign_out' => 'devise/sessions#destroy'
   end
 
-# config/routes.rb
-namespace :moderators do
-  resources :posts, only: [:index] do
-    member do
-      post 'approve'
-      delete 'delete_reported'
-    end
-    collection do
-      delete 'delete_reported'
-    end
+  # Posts and nested resources (comments, likes)
+  resources :posts do
+    resources :comments, only: [:create]
+    resources :likes, only: [:create, :destroy]
   end
 
-  get 'welcome', to: 'welcome#index', as: 'moderator_dashboard'
-end
+  # Moderator-specific actions on posts
+  namespace :moderators do
+    resources :posts, only: [] do
+      collection do
+        patch 'approve'
+        delete 'delete_reported'
+      end
+      member do
+        patch 'approve'
+        delete 'delete_reported'
+      end
+    end
 
+    # Dashboard for moderators
+    get 'welcome', to: 'welcome#index', as: 'moderator_dashboard'
+  end
 
-  
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # Health check endpoint
   get 'up' => 'rails/health#show', as: :rails_health_check
-
-
 end
