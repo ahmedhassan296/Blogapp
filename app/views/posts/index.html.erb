@@ -1,3 +1,8 @@
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag 'posts_index', media: 'all', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
+
 <div class="container mt-4">
   <h1 class="text-center mb-4">Posts</h1>
 
@@ -8,14 +13,12 @@
   <div id="posts" class="row">
     <% @posts.each do |post| %>
       <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
+        <%= link_to post_path(post), class: "card h-100 shadow-sm post-card-link" do %>
           <div class="card-body">
             <%= render post %>
-            <p class="mt-3">
-              <%= link_to "Show this post", post_path(post), class: "btn btn-outline-primary" %>
-            </p>
+
           </div>
-        </div>
+        <% end %>
       </div>
     <% end %>
   </div>

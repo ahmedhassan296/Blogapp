@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+
+
   def index
     if current_user
       # Get the start and end of the current day
@@ -14,4 +16,10 @@ class HomeController < ApplicationController
       @posts = [] # or you could redirect the user, or show a message
     end
   end
+
+
+
+
+
+
 end

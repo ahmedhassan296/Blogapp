@@ -1,5 +1,6 @@
-
-<%= form_with model: [reportable, Report.new], url: post_post_reports_path(reportable), local: true do |form| %>
+<%= form_for [reportable, Report.new], url: reports_url, local: true do |form| %>
+<%= form.hidden_field :reportable_type, value: reportable.class.name %>
+  <%= form.hidden_field :reportable_id, value: reportable.id %>
   <div class="field">
     <%= form.label :reason %>
     <%= form.text_area :reason, rows: 3, placeholder: 'Please report here' %>

@@ -12,7 +12,7 @@ class PostAbility
       can :unpublish, Post
     else
       can :read, Post
-      can :create, Post
+      can :create, Post , user: user
       can :update, Post, user: user
       can :destroy, Post, user: user
     end

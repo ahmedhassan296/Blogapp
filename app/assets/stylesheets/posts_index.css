@@ -1,0 +1,35 @@
+/* app/assets/stylesheets/posts_index.css */
+
+.post-card-link {
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.post-card-link:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+  position: relative;
+  z-index: 2;
+}
+
+.card-body p {
+  margin: 0;
+}
+
+.text-primary {
+  color: #007bff !important;
+}
+
+.card {
+  border: 1px solid #ccc; /* Light grey border */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #fff; /* White background */
+}
+
+.card:hover {
+  border-color: #aaa; /* Darker grey border on hover */
+}

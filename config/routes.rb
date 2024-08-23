@@ -15,11 +15,10 @@ Rails.application.routes.draw do
   resources :posts do
     resources :comments do
       resources :likes, only: [:create, :destroy], as: 'comment_likes'
-      resources :comments, only: [:create,:new], as: 'replies'
     end
     resources :likes, only: [:create, :destroy]
-    resources :reports, only: [:create], as: 'post_reports'
   end
+  resources :reports, only: [:create]
 
   # Moderator-specific actions on posts
   namespace :moderators do

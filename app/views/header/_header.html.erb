@@ -1,3 +1,19 @@
+<style>
+  .underline-hover {
+  text-decoration: none; /* Remove the default underline if any */
+}
+
+.underline-hover:hover {
+  text-decoration: underline;
+}
+
+.btn-link {
+  font-size: inherit; /* Ensure the font size matches the surrounding text */
+  color: inherit; /* Make sure the color matches the surrounding text */
+}
+
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <%= link_to 'Blog App', root_path, class: "navbar-text custom-nav-text" %>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -9,15 +25,20 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <% if user_signed_in? %>
+
           <li class="nav-item d-flex align-items-center">
             <span class="navbar-text custom-nav-text underline-text">Welcome, &nbsp;&nbsp;&nbsp;<%= current_user.username %>!</span>
           </li>&nbsp;&nbsp;&nbsp;
+           <li class="nav-item">
+          <%= link_to 'Home', root_path, class: "nav-link custom-nav-link" %>
+        </li>
           <li class="nav-item">
             <%= link_to 'Edit Profile', edit_user_registration_path, class: "nav-link custom-nav-link" %>
           </li>&nbsp;&nbsp;&nbsp;
-          <li class="nav-item">
-            <%= link_to 'Logout', destroy_user_session_path,  data: {turbo_method: :delete, turbo: true, confirm: 'Are you sure you want to logout?' }, class: "nav-link custom-nav-link" %>
-          </li>&nbsp;&nbsp;&nbsp;
+         <li class="nav-item">
+  <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn btn-link nav-link custom-nav-link underline-hover' %>
+</li>
+&nbsp;&nbsp;&nbsp;
         <% else %>
           <li class="nav-item">
             <%= link_to 'Sign Up', new_user_registration_path, class: "nav-link custom-nav-link" %>
@@ -29,9 +50,7 @@
         <li class="nav-item">
           <%= link_to 'Articles', posts_path, class: "nav-link custom-nav-link" %>
         </li>&nbsp;&nbsp;&nbsp;
-        <li class="nav-item">
-          <%= link_to 'Home', root_path, class: "nav-link custom-nav-link" %>
-        </li>
+       
         
       </ul>
 

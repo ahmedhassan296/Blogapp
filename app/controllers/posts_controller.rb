@@ -11,6 +11,7 @@ before_action :authorize_post, only: [:edit, :update, :destroy]
   # GET /posts/1 or /posts/1.json
   def show
     @post = Post.find(params[:id])
+
     @likeable = @post
     @comment =  @post.comments.includes(:user).order(id: :desc)
   end

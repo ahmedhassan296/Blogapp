@@ -1,4 +1,4 @@
-<article class="comment-card">
+<div class="comment-card comment">
   <p class="comment-content"><%= comment.content %></p>
   <div class="comment-author">
     <small>by <%= comment.user.username %></small>
@@ -12,21 +12,51 @@
     </div>
   <% end %>
 
+
+
    <div class="text-left mb-4">
     <%= render 'likes/like_button', likeable: comment %>
   </div>
 
-   <div>
- <%= link_to 'Reply to this comment', '#', class: 'reply-link', data: { comment_id: comment.id } %>   </div>
+ 
+  
 
-   <div class="replies">
-    <%= render comment.replies %>
+     <a href="#" class="commet-form-display">reply</a>
+     <div class="comment-formd">
+    <%= render partial: 'comments/form', locals: { post: comment.post, parent: comment } %>
   </div>
 
- <div id="reply-form-<%= comment.id %>" class="reply-form" style="display:none;">
-    <%= render partial: 'comments/form', locals: { post: comment.post, reply_to: comment } %>
-  </div>
+  <% if comment.replies.any? %>
+      <div class="replies ml-4 mt-3">
+        <% comment.replies.each do |reply| %>
+          <%= render partial: 'comments/comment', locals: { comment: reply } %>
+        <% end %>
+      </div>
+    <% end %>
+
+
+
     <h4 style="color: black">Report Comment</h4>
-  <%= render partial: 'reports/report_form', locals: { reportable: comment } %>
-</article>
+   <%= render partial: 'reports/report_form', locals: { reportable: comment } %>
+</div>
 <hr/>
+
+<script>
+  document.addEventListener('turbo:load', () => {
+  const replyLinks = document.querySelectorAll('.commet-form-display');
+
+  replyLinks.forEach(link => {
+    link.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent the default link behavior
+
+      const commentForm = this.nextElementSibling; // Find the next sibling element (the comment form)
+
+      if (commentForm.classList.contains('comment-formd')) {
+        commentForm.style.display = 'block'; // Display the comment form as block
+      }
+    });
+  });
+});
+</script>
+
+

@@ -1,6 +1,10 @@
-<%= form_with(model: [post, (reply_to || Comment.new)], local: true) do |form| %>
-  
-   <%= form.hidden_field :parent_id, value: reply_to&.id %>
+<%= form_with(model: [post, Comment.new], local: false, data: { turbo: false }) do |form| %>
+
+  <%# Conditionally include the hidden field for parent_id if the parent is present %>
+  <% if parent.present? %>
+    <%= form.hidden_field :parent_id, value: parent.id %>
+  <% end %>
+
   <div class="form-group">
     <%= form.label :content %>
     <%= form.text_area :content, rows: 3, class: 'form-control', placeholder: 'Please comment here' %>
@@ -10,9 +14,6 @@
     <%= form.label :images, "Attach Images" %>
     <%= form.file_field :images, multiple: true, direct_upload: true, class: 'form-control' %>
   </div>
-
-  <%# Hidden field to store the parent_id if replying to a comment %>
-  <%= form.hidden_field :parent_id, value: reply_to.id if reply_to %>
 
   <%= form.submit 'Submit', class: 'btn btn-dark' %>
 <% end %>

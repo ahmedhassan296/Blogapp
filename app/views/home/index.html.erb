@@ -1,10 +1,10 @@
-<hr/>
-
 <h1 class="text-center mt-4 mb-5 welcome-heading">Welcome to our BlogApp</h1>
 
 <div class="d-flex justify-content-center mb-4 action-links">
-  <%= link_to "New Post", new_post_path, class: "btn btn-dark me-5" %>
   <% if current_user %>
+    <% if can? :create, Post %>
+      <%= link_to "New Post", new_post_path, class: "btn btn-dark me-5" %>
+    <% end %>
     <%= link_to "My Posts", posts_path, class: "btn btn-dark" %>
   <% end %>
 </div>
@@ -13,30 +13,35 @@
   <div class="row posts-container">
     <% @posts.each do |post| %>
       <div class="col-md-4">
-        <div class="card post-card mb-4">
-          <% if post.image.attached? %>
-            <%= image_tag post.image, alt: post.title, class: "card-img-top post-image" %>
-          <% end %>
+        <%= link_to post_path(post), class: "post-card-link" do %>
+          <div class="card post-card mb-4">
+            <% if post.image.attached? %>
+              <%= image_tag post.image, alt: post.title, class: "card-img-top post-image" %>
+            <% end %>
 
-          <div class="card-body">
-            <h5 class="card-title post-title"><%= post.title %></h5>
-            <p class="card-text post-description"><%= post.description.truncate(150) %></p>
+            <div class="card-body">
+              <h5 class="card-title post-title"><%= post.title %></h5>
+              <p class="card-text post-description"><%= post.description.truncate(150) %></p>
 
-            <h6 class="text-muted">Created by:</h6>
-            <p class="post-author"><%= post.user.username %></p>
-            
-            <div class="comments-section">
-              <h6>Comments:</h6>
-              <% post.comments.limit(3).each do |comment| %>
-                <div class="comment">
-                  <p><strong><%= comment.user.email %>:</strong> <%= comment.content.truncate(100) %></p>
-                </div>
-              <% end %>
+              <h6 class="text-muted">Created by:</h6>
+              <p class="post-author"><%= post.user.username %></p>
+              
+              <div class="likes-section mt-3">
+                <%= image_tag "thumbs_up.svg", alt: "Like", class: "likes-icon" %>
+                <span class="likes-count"><%= post.likes.count %> Likes</span>
+              </div>
+              
+              <div class="comments-section mt-3">
+                <h6>Comments:</h6>
+                <% post.comments.limit(3).each do |comment| %>
+                  <div class="comment">
+                    <p><strong><%= comment.user.email %>:</strong> <%= comment.content.truncate(100) %></p>
+                  </div>
+                <% end %>
+              </div>
             </div>
-
-            <%= link_to "Read more", post_path(post), class: "btn btn-outline-primary mt-3" %>
           </div>
-        </div>
+        <% end %>
       </div>
     <% end %>
   </div>
@@ -55,11 +60,17 @@
   .post-card {
     border: 1px solid #ddd;
     border-radius: 8px;
-    transition: box-shadow 0.3s ease-in-out;
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
   }
 
-  .post-card:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  .post-card-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .post-card-link:hover .post-card {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
   }
 
   .post-image {
@@ -76,6 +87,22 @@
 
   .post-author {
     color: #777;
+  }
+
+  .likes-section {
+    display: flex;
+    align-items: center;
+  }
+
+  .likes-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+  }
+
+  .likes-count {
+    font-weight: bold;
+    color: #333;
   }
 
   .comments-section {
