@@ -1,8 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[  edit update destroy ]
-before_action :authenticate_user!
-
-before_action :authorize_post, only: [:edit, :update, :destroy]
+  load_and_authorize_resource
   # GET /posts or /posts.json
   def index
     @posts = current_user.posts
@@ -82,7 +80,5 @@ before_action :authorize_post, only: [:edit, :update, :destroy]
     def post_params
       params.require(:post).permit(:title, :description, :image)
     end
-    def authorize_post
-    authorize! action_name.to_sym, @post
-  end
+  
 end

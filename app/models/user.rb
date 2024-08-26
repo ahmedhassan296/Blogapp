@@ -17,16 +17,17 @@ before_destroy :destroy_associations
   has_many :posts, dependent: :destroy
   has_many :likes, dependent: :destroy
 has_many :reports, dependent: :destroy
+has_many :suggestions, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :lockable, :trackable, :confirmable
 
   validates :username, presence: true, uniqueness: true
 
-  enum usertype: { user: 0, admin: 1, moderator: 2 }
+  enum user_type: { user: 0, admin: 1, moderator: 2 }
 
   def is_admin?
-    usertype == 'admin'
+    user_type == 'admin'
   end
 
   def self.ransackable_attributes(auth_object = nil)

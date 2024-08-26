@@ -6,6 +6,7 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :likes, as: :likeable, dependent: :destroy
    has_many :reports, as: :reportable, dependent: :destroy
+   has_many :suggestions, dependent: :destroy
 
   # Enum definition for status
   enum status: { pending: 'pending', approved: 'approved', reported: 'reported' }

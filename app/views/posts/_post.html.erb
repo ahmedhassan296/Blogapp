@@ -1,19 +1,13 @@
 <div id="<%= dom_id post %>">
-  <p>
-    <strong>Title:</strong>
-    <%= post.title %>
+<%= image_tag(post.image) if post.image.attached? %>
+
+  <h5 class="card-title"><%= post.title %></h5>
+  
+  <p class="card-text">
+    <%= truncate(post.description, length: 100) %>
   </p>
 
-  <p>
-    <strong>Description:</strong>
-    <%= post.description %>
+  <p class="card-text">
+    <small class="text-muted"><strong>Status:</strong> <%= post.status.present? ? post.status.capitalize : "Pending" %></small>
   </p>
-
-<p>
-  <strong>Status:</strong>
-  <%= post.status.present? ? post.status.capitalize : "Pending" %>
-</p>
-
-
-  <%= image_tag(post.image) if post.image.attached? %>
 </div>

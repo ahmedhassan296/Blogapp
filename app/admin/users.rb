@@ -1,13 +1,13 @@
 # app/admin/users.rb
 ActiveAdmin.register User do
-  permit_params :email, :username, :encrypted_password, :reset_password_token, :reset_password_sent_at, :remember_created_at, :usertype, :failed_attempts, :unlock_token, :locked_at, :current_sign_in_at, :last_sign_in_at
+  permit_params :email, :username, :encrypted_password, :reset_password_token, :reset_password_sent_at, :remember_created_at, :user_type, :failed_attempts, :unlock_token, :locked_at, :current_sign_in_at, :last_sign_in_at
 
   index do
     selectable_column
     id_column
     column :email
     column :username
-    column :usertype
+    column :user_type
     column :failed_attempts
     column :locked_at
     column :current_sign_in_at

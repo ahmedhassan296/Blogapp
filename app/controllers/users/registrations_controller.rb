@@ -62,7 +62,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # Permit additional parameters for sign up
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :usertype])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :user_type])
   end
 
   # Permit additional parameters for account update

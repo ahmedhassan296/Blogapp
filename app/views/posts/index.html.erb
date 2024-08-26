@@ -2,21 +2,26 @@
   <%= stylesheet_link_tag 'posts_index', media: 'all', 'data-turbolinks-track': 'reload' %>
 <% end %>
 
-
 <div class="container mt-4">
   <h1 class="text-center mb-4">Posts</h1>
 
   <div class="text-center mb-4">
-    <%= link_to "New Post", new_post_path, class: "btn btn-dark" %>
+    <%= link_to "New Post", new_post_path, style: 'color:white', class: "btn btn-dark" %>
   </div>
 
   <div id="posts" class="row">
     <% @posts.each do |post| %>
       <div class="col-md-4 mb-4">
-        <%= link_to post_path(post), class: "card h-100 shadow-sm post-card-link" do %>
+        <%= link_to post_path(post), class: "card h-100 shadow-sm post-card-link text-decoration-none" do %>
+          <% if post.image.attached? %>
+            <%= image_tag(post.image, class: "card-img-top img-fluid", alt: post.title) %>
+          <% end %>
           <div class="card-body">
-            <%= render post %>
-
+            <h5 class="card-title"><%= post.title %></h5>
+            <p class="card-text"><%= truncate(post.description, length: 100) %></p>
+            <p class="card-text">
+              <small class="text-muted"><strong>Status:</strong> <%= post.status.present? ? post.status.capitalize : "Pending" %></small>
+            </p>
           </div>
         <% end %>
       </div>

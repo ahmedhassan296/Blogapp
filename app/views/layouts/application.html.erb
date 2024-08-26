@@ -39,16 +39,18 @@
     <%= render 'header/header' %>
 
      <div class="content">
-      <% if notice %>
-      <div class="alert alert-warning" role="alert">
-        <%= notice %>
-      </div>
-      <% end %>
-      <% if alert %> 
-      <div class="alert alert-danger" role="alert">
-        <%= alert %>
-      </div>
-      <% end %>
+      <div class="alert-container">
+  <% if notice %>
+    <div id="notice" class="alert alert-warning" role="alert">
+      <%= notice %>
+    </div>
+  <% end %>
+  <% if alert %>
+    <div id="alert" class="alert alert-danger" role="alert">
+      <%= alert %>
+    </div>
+  <% end %>
+</div>
       <%= yield %>
     </div>
 
@@ -57,3 +59,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>
 </html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    setTimeout(function() {
+      $('#notice, #alert').addClass('hide'); // Apply the hide class to fade out
+    }, 5000); // 5000 milliseconds = 5 seconds
+    
+    setTimeout(function() {
+      $('#notice, #alert').remove(); // Remove from DOM after transition (optional)
+    }, 7000); // Extra 1 second to ensure transition is complete
+  });
+</script>

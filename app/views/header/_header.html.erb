@@ -36,7 +36,7 @@
             <%= link_to 'Edit Profile', edit_user_registration_path, class: "nav-link custom-nav-link" %>
           </li>&nbsp;&nbsp;&nbsp;
          <li class="nav-item">
-  <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn btn-link nav-link custom-nav-link underline-hover' %>
+  <%= button_to 'Logout', destroy_user_session_path, style: 'text-decoration: underline',method: :delete, class: 'btn btn-link nav-link custom-nav-link underline-hover' %>
 </li>
 &nbsp;&nbsp;&nbsp;
         <% else %>
@@ -51,6 +51,10 @@
           <%= link_to 'Articles', posts_path, class: "nav-link custom-nav-link" %>
         </li>&nbsp;&nbsp;&nbsp;
        
+        <li class="nav-item">
+        <%= link_to 'My Suggestions', suggestions_path, class: "nav-link custom-nav-link" %>
+      </li>&nbsp;&nbsp;&nbsp;
+     
         
       </ul>
 

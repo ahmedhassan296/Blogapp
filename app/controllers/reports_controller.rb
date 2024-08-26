@@ -3,7 +3,6 @@ class ReportsController < ApplicationController
 
 
   def create
-    debugger
     @report = Report.new(report_params)
     @report.user = current_user
 

@@ -1,0 +1,56 @@
+<% suggestions.each do |suggestion| %>
+  <% if suggestion.status == 'pending' %>
+    <div class="suggestion">
+      <p><strong><%= suggestion.user.username %>:</strong> <%= suggestion.content %></p>
+      <p>Status: <%= suggestion.status.capitalize %></p>
+      <p>Created at: <%= suggestion.created_at.strftime("%d %b %Y") %></p>
+
+      <% if suggestion.user == current_user && suggestion.status == 'pending' %>
+        <% if can? :update, suggestion %>
+          <%= link_to 'Edit', edit_post_suggestion_path(suggestion.post, suggestion) %>
+        <% end %> |
+      <% end %>
+
+      <% if can? :accept, suggestion %>
+        <%= link_to 'Accept', accept_post_suggestion_path(suggestion.post, suggestion), data: { turbo_method: :patch, turbo_confirm: 'Are you sure you want to accept this post?' }, class: "btn btn-success" %>
+      <% end %>
+
+      <% if can? :reject, suggestion %>
+        <%= link_to 'Reject', reject_post_suggestion_path(suggestion.post, suggestion), data: { turbo_method: :patch, turbo_confirm: 'Are you sure you want to reject this post?' }, class: "btn btn-danger" %> |
+      <% end %>
+
+    
+       <% if can? :reply, suggestion %>
+             <a href="#" class="commet-form-display">reply</a>
+          <div class="comment-formd">
+ <%= form_with(model: [suggestion.post, Suggestion.new], url: reply_post_suggestion_path(suggestion.post, suggestion), method: :patch, local: true) do |form| %>
+            <%= form.text_area :content, placeholder: "Write your reply here...", rows: 3, class: "form-control" %>
+            <%= form.hidden_field :parent_id, value: suggestion.id %>
+            <%= form.submit "Submit Reply", class: "btn btn-primary mt-2" %>
+          <% end %>           
+          </div>
+      <% end %>
+      
+    </div>
+  <% end %>
+<% end %>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+ document.addEventListener('turbo:load', () => {
+  const replyLinks = document.querySelectorAll('.commet-form-display');
+
+  replyLinks.forEach(link => {
+    link.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent the default link behavior
+
+      const commentForm = this.nextElementSibling; // Find the next sibling element (the comment form)
+
+      if (commentForm.classList.contains('comment-formd')) {
+        commentForm.style.display = 'block'; // Display the comment form as block
+      }
+    });
+  });
+});
+
+</script>

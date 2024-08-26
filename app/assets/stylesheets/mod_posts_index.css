@@ -1,0 +1,11 @@
+/* Custom styles for approve and delete buttons */
+.btn-approve-delete {
+  color: white;
+  font-weight: normal;
+  transition: font-weight 0.3s ease;
+}
+
+/* Hover effect for bold text */
+.btn-approve-delete:hover {
+  font-weight: bold;
+}

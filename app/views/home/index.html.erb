@@ -3,9 +3,11 @@
 <div class="d-flex justify-content-center mb-4 action-links">
   <% if current_user %>
     <% if can? :create, Post %>
-      <%= link_to "New Post", new_post_path, class: "btn btn-dark me-5" %>
+      <%= link_to "New Post", new_post_path,style: 'color:white' ,class: "btn btn-dark me-5" %>
     <% end %>
-    <%= link_to "My Posts", posts_path, class: "btn btn-dark" %>
+    <% if can? :read, @post %>
+    <%= link_to "My Posts", posts_path,style: 'color:white' ,class: "btn btn-dark" %>
+    <%end %>
   <% end %>
 </div>
 
@@ -35,7 +37,7 @@
                 <h6>Comments:</h6>
                 <% post.comments.limit(3).each do |comment| %>
                   <div class="comment">
-                    <p><strong><%= comment.user.email %>:</strong> <%= comment.content.truncate(100) %></p>
+                    <p><%= comment.content.truncate(100) %><br/>By <small><%= comment.user.username %>:</small> </p>
                   </div>
                 <% end %>
               </div>

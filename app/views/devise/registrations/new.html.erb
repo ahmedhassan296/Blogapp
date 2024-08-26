@@ -30,8 +30,8 @@
         </div>
 
         <div class="mb-3">
-          <%= f.label :usertype, class: "form-label" %>
-          <%= f.select :usertype, options_for_select([['User', :user], ['Moderator', :moderator]], resource.usertype), { prompt: 'Select a user type' }, class: "form-select" %>
+          <%= f.label :user_type, class: "form-label" %>
+          <%= f.select :user_type, options_for_select([['User', :user], ['Moderator', :moderator]], resource.user_type), { prompt: 'Select a user type' }, class: "form-select" %>
         </div>
 
         <div class="d-grid">

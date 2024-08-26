@@ -11,10 +11,9 @@ class Users::SessionsController < Devise::SessionsController
   # POST /resource/sign_in
  def create
     super do |resource|
-     
       if resource.moderator?
         # Redirect Moderator to the Moderator dashboard
-        redirect_to moderators_moderator_dashboard_path and return
+        redirect_to mod_posts_index_moderators_posts_path and return
       else
         # Redirect regular User to the Posts page
         redirect_to root_path and return

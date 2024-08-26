@@ -1,0 +1,50 @@
+<% provide(:title, 'My Suggestions') %>
+
+<div class="container my-5">
+  <h1 class="text-center mb-4">My Suggestions</h1>
+  
+  <% if @suggestions.any? %>
+    <div class="row">
+      <% @suggestions.each do |suggestion| %>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <%= link_to post_path(suggestion.post, anchor: "suggestion-#{suggestion.id}"), class: 'card shadow-sm text-decoration-none' do %>
+            <div class="card-body">
+              <h5 class="card-title">Suggestion for: <%= suggestion.post.title %></h5>
+              <p class="card-text"><%= truncate(suggestion.content, length: 100) %></p>
+              <p class="card-text">
+                <small class="text-muted">Status: <%= suggestion.status.capitalize %></small>
+              </p>
+              <p class="card-text">
+                <small class="text-muted">Created on: <%= suggestion.created_at.strftime("%B %d, %Y") %></small>
+              </p>
+            </div>
+            
+            <% if suggestion.replies.any? %>
+              <div class="card-footer mt-3">
+                <h6 class="card-subtitle mb-2 text-muted">Replies:</h6>
+                <ul class="list-unstyled">
+                  <% suggestion.replies.each do |reply| %>
+                    <li class="mb-2">
+                      <div class="card shadow-sm">
+                        <div class="card-body">
+                          <p class="card-text"><%= truncate(reply.content, length: 80) %></p>
+                          <p class="card-text">
+                            <small class="text-muted">Replied on: <%= reply.created_at.strftime("%B %d, %Y") %></small>
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="alert alert-info text-center">
+      You haven't made any suggestions yet.
+    </div>
+  <% end %>
+</div>

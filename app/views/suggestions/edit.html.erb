@@ -1,0 +1,14 @@
+<h1>Edit Suggestion</h1>
+
+<%= form_with(model: [@suggestion.post, @suggestion], local: true) do |f| %>
+  <div class="field">
+    <%= f.label :content %><br>
+    <%= f.text_area :content %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Update Suggestion" %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', post_suggestions_path(@suggestion.post) %>

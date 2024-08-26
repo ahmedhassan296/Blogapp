@@ -1,0 +1,13 @@
+<%= form_with(model: [@post, @suggestion || Suggestion.new], local: true) do |f| %>
+    <div class="field">
+      <%= f.label :content %><br>
+      <%= f.text_area :content %>
+    </div>
+  
+    <%= f.hidden_field :parent_id, value: @parent_suggestion.try(:id) %>
+  
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+  

@@ -8,8 +8,13 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
+  # config/routes.rb
+
+
   # Root path
   root to: 'home#index'
+
+
 
   # Posts and nested resources (comments, likes)
   resources :posts do
@@ -17,25 +22,37 @@ Rails.application.routes.draw do
       resources :likes, only: [:create, :destroy], as: 'comment_likes'
     end
     resources :likes, only: [:create, :destroy]
+    resources :suggestions, only: [:create, :update, :destroy, :index, :edit]do
+    member do
+      patch :reply
+      patch :accept
+      patch :reject
+    end
+  end
   end
   resources :reports, only: [:create]
+  resources :suggestions, only: [:index]
+  # get 'posts', to: 'moderators/posts#index', as: 'mod_posts'
 
   # Moderator-specific actions on posts
   namespace :moderators do
+    
     resources :posts, only: [] do
       collection do
-        patch 'approve'
-        delete 'delete_reported'
+        get 'index', to: 'posts#index', as: 'mod_posts_index'
       end
       member do
         patch 'approve'
         delete 'delete_reported'
+        patch 'pending'
       end
     end
 
     # Dashboard for moderators
     get 'welcome', to: 'welcome#index', as: 'moderator_dashboard'
   end
+
+
 
   # Health check endpoint
   get 'up' => 'rails/health#show', as: :rails_health_check

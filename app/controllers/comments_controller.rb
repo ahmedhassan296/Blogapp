@@ -27,7 +27,7 @@ class CommentsController < ApplicationController
     @reply_to = Comment.find(params[:comment_id])
     @comment = @post.comments.build(parent: @reply_to)
     
-    render partial: 'comments/form', locals: { post: @post, reply_to: @reply_to }
+    render partial: 'comments/form', locals: { post: @post, parent: @reply_to }
   end
 
   # PATCH/PUT /comments/1

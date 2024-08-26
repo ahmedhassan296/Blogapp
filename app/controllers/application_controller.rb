@@ -8,5 +8,12 @@ class ApplicationController < ActionController::Base
   #     user_dashboard_path   # Replace with your regular user path
   #   end
   # end
+  rescue_from CanCan::AccessDenied do |exception|
+    if current_user&.user_type == 'moderator'
+      redirect_to mod_posts_index_moderators_posts_path, alert: exception.message
+    else
+      redirect_to root_url, alert: exception.message
+    end
+  end
   
 end
