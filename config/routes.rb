@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   # Posts and nested resources (comments, likes)
   resources :posts do
     resources :comments do
-      resources :likes, only: [:create, :destroy], as: 'comment_likes'
+      resources :likes, only: [:create, :destroy]
     end
     resources :likes, only: [:create, :destroy]
     resources :suggestions, only: [:create, :update, :destroy, :index, :edit]do
@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     end
   end
   end
+  
   resources :reports, only: [:create]
   resources :suggestions, only: [:index]
   # get 'posts', to: 'moderators/posts#index', as: 'mod_posts'

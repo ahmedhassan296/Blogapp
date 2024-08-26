@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_25_074846) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_26_114841) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -95,6 +95,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_25_074846) do
     t.string "kind", default: "thumb_up"
     t.index ["kind"], name: "index_likes_on_kind"
     t.index ["likeable_type", "likeable_id"], name: "index_likes_on_likeable"
+    t.index ["user_id", "likeable_id", "likeable_type"], name: "index_likes_on_user_and_likeable", unique: true
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 

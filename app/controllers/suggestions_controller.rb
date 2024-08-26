@@ -13,9 +13,8 @@ class SuggestionsController < ApplicationController
 
       else
         # List all suggestions made by the current user
-        @suggestions = current_user.suggestions
-
-      end
+        @suggestions = Suggestion.where(user_id: current_user.id).where.not(status: :rejected)
+       end
     end
   
     def create

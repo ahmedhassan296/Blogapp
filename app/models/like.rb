@@ -3,6 +3,7 @@ class Like < ApplicationRecord
   belongs_to :likeable, polymorphic: true
    validates :kind, inclusion: { in: %w[thumb_up thumb_down] }
 
+validates :user_id, uniqueness: { scope: [:likeable_id, :likeable_type] }
    
 
 def self.ransackable_attributes(auth_object = nil)

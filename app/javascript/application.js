@@ -7,3 +7,14 @@ import "trix"
 import "@rails/actiontext"
 
 
+
+document.addEventListener('turbo:submit-end', function(event) {
+    if (event.detail.success) {
+      const likeButton = document.getElementById(event.target.dataset.likeButtonId);
+      if (likeButton) {
+        likeButton.innerHTML = event.detail.responseHTML;
+      }
+    }
+  });
+  
+

@@ -69,5 +69,7 @@ ActiveAdmin.register_page "Dashboard" do
 
     # Other sections or dashboard content...
   end
+
+  
   
 end
